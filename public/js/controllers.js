@@ -47,5 +47,7 @@ leadscrub.controller('mainController',
 	socket.of('/', 'leads', 300000, function (data) {
 		data.expand = false;
 		$scope.leads.addLead(data);
+
+		console.log('hi');
 	});
 }]);
