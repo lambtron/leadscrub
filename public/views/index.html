@@ -26,6 +26,7 @@
 	<script src="/public/js/controllers.js"></script>
 
 	<!-- Page specific js. -->
+	<script src="/public/js/jquery-csv.js"></script>
 	<script src="/public/js/index.js"></script>
 
 	<!-- Relative routing for $locationProvider. -->
@@ -35,9 +36,42 @@
 <!-- SET THE CONTROLLER AND GET ALL TODOS WITH INITIALIZE FUNCTION -->
 <body>
 	<div ng-controller="mainController">
-		<div class="container">
+		<div class="container" style="width: 800px;">
 			<div class="row">
-				
+
+			</div>
+			<div class="row">
+				<div class="form-group">
+					<label>Select a csv file:</label>
+					<input type="file" id="fileInput">
+				</div>
+			</div>
+			<hr>
+			<div class="row">
+				<table style="min-width: 600px">
+		    	<thead>
+		    		<tr>
+		    			<th class="col-md-4" style="padding: 0px;">Email</th>
+		    			<th class="col-md-4" style="padding: 0px;">Person</th>
+		    			<th class="col-md-4" style="padding: 0px;">Headline</th>
+		    			<th class="col-md-4" style="padding: 0px;">Size</th>
+		    		</tr>
+		    	</thead>
+	    		<tbody>
+	    			<tr ng-repeat="lead in leads.list track by $index">
+	    				<td>{{lead.person.email}}</td>
+	    				<td>{{lead.person.name}}</td>
+	    				<td>{{lead.person.headline}}</td>
+	    				<td>{{lead.company.employees}}</td>
+	    			</tr>
+	    		</tbody>
+		    </table>
+			</div>
+			<hr>
+			<div class="row">
+				<div class="btn btn-primary" ng-click="scrubEmails()">
+					Show me my leads!
+				</div>
 			</div>
 		</div>
 	</div>
