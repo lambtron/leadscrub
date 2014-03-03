@@ -19,6 +19,6 @@
     "underscore": "latest",
     "request": "latest",
     "socket.io": "latest",
-    "hashids": "latest"
+    "hashids": ""
   }
 }
