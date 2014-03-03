@@ -7,7 +7,6 @@
  */
 var request = require('request');
 
-
 // Public functions. ===========================================================
 module.exports = function (app, io) {
 
@@ -28,7 +27,7 @@ module.exports = function (app, io) {
 			  	api_key: '945a974a20',
 					delivery_method: 'webhook',
 					email: emails[i],
-					callback: 'http://6bd81658.ngrok.com/api/leads'
+					callback: 'http://leadscrub.herokuapp.com/api/leads'
 			  }
 			};
 
