@@ -8,6 +8,7 @@ leadscrub.controller('mainController',
 	var leads = $scope.leads = {
 		emails: [], // Array of email addresses
 		list: [], // Array of stacklead objects
+		namespace: '',
 		addEmail: function addEmail (email) {
 			// Add email to list.
 			// var lead = {
@@ -30,7 +31,8 @@ leadscrub.controller('mainController',
 			$http.post('/api/emails', this.emails)
 			.success( function (data) {
 				// Success!
-				console.log('Success: ' + data);
+				console.log('Success: ' + data.namespace);
+				leads.namespace = data.namespace;
 			})
 			.error( function (data) {
 				// Error.

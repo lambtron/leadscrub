@@ -5,13 +5,19 @@
 /**
  * Import helpers ==============================================================
  */
-var request = require('request');
+var request = require('request')
+	, HashIds = require('hashids');
+
+// Initialize hashing variables.
+var counter = Math.floor(Math.random() * 1000)
+	, salt = Math.random().toString(36).substring(10)
+	, hashIds = new HashIds(salt, 12);
 
 // Public functions. ===========================================================
 module.exports = function (app, io) {
 
 	// API endpoints =============================================================
-	app.post('/api/emails', function (req, res) {
+	app.post('/api/leads', function (req, res) {
 		// Take the array of emails, feed it to Stacklead API.	
 		var emails = req.body; // [ 'andyjiang@gmail.com', 'andy@twilio.com' ]
 
@@ -36,10 +42,15 @@ module.exports = function (app, io) {
 					res.send(err, 400);
 
 				console.log(body);
+				res.send(200);
 			});
 		}
 
-		res.send(200);
+		// Generate unique hashId for socket namespacing.
+		// var hash = hashIds.encrypt(counter);
+		// counter = counter + 1;
+
+		// res.send({namespace: hash}, 200);
 	});
 
 	app.post('/api/leads', function (req, res) {
