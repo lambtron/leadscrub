@@ -1,0 +1,62 @@
+<!-- index.html -->
+<!DOCTYPE html>
+
+<!-- ASSIGN OUR ANGULAR MODULE -->
+<html lang="en" ng-app="sutterbus">
+<head>
+	<!-- META -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+	<title>Sutter Bus</title>
+
+	<!-- FAVICON -->
+	<link rel="shortcut icon" href="/public/img/favicon.png">
+	<link rel="apple-touch-icon-precomposed" href="/public/img/apple-touch-icon.png">
+
+	<!-- SCROLLS -->
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/public/css/index.css">
+	<!-- load bootstrap -->
+
+	<!-- SPELLS -->
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+	<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.5/angular.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular-route.min.js"></script>
+
+	<script src="/socket.io/socket.io.js"></script>
+	<script src="/public/js/app.js"></script>
+	<script src="/public/js/config.js"></script>
+	<script src="/public/js/services.js"></script>
+	<script src="/public/js/controllers.js"></script>
+	<script src="/public/js/directives.js"></script>
+
+	<!-- Page specific js. -->
+	<script src="/public/js/index.js"></script>
+
+	<!-- Relative routing for $locationProvider. -->
+	<base href="/">
+
+	<!-- Segment.io -->
+	<script type="text/javascript">
+		window.analytics||(window.analytics=[]),window.analytics.methods=["identify","track","trackLink","trackForm","trackClick","trackSubmit","page","pageview","ab","alias","ready","group","on","once","off"],window.analytics.factory=function(t){return function(){var a=Array.prototype.slice.call(arguments);return a.unshift(t),window.analytics.push(a),window.analytics}};for(var i=0;window.analytics.methods.length>i;i++){var method=window.analytics.methods[i];window.analytics[method]=window.analytics.factory(method)}window.analytics.load=function(t){var a=document.createElement("script");a.type="text/javascript",a.async=!0,a.src=("https:"===document.location.protocol?"https://":"http://")+"d2dq2ahtl5zl1z.cloudfront.net/analytics.js/v1/"+t+"/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(a,n)},window.analytics.SNIPPET_VERSION="2.0.8",
+		window.analytics.load("omrf1m7qy7");
+		window.analytics.page();
+	</script>
+</head>
+
+<!-- SET THE CONTROLLER AND GET ALL TODOS WITH INITIALIZE FUNCTION -->
+<body>
+	<div ng-view>
+	</div>
+
+	<div class="row" style="margin: 0px;">
+		<footer class="col-xs-12 footer">
+			Made w <span class="glyphicon glyphicon-heart" style="color: #EE2C2C"></span> by <a href="http://www.twitter.com/andyjiang">@andyjiang</a>
+		</footer>
+	<div>
+</body>
+</html>
