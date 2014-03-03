@@ -37,7 +37,7 @@ module.exports = function (app, io) {
 			  }
 			};
 
-			request(opts, function (err, res, body) {
+			request(opts, function (err, r, body) {
 				if (err)
 					res.send(err, 400);
 
