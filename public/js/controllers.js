@@ -45,6 +45,7 @@ leadscrub.controller('mainController',
 
 	// Receiving data from server via Socket.io.
 	socket.of('/', 'leads', 300000, function (data) {
+		data.expand = false;
 		$scope.leads.addLead(data);
 	});
 }]);
