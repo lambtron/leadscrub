@@ -17,6 +17,7 @@
     "express": "3.x",
     "mongoose": "2.x",
     "underscore": "latest",
-    "request": "latest"
+    "request": "latest",
+    "socket.io": "latest"
   }
 }

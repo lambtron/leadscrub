@@ -9,7 +9,7 @@ var request = require('request');
 
 
 // Public functions. ===========================================================
-module.exports = function (app) {
+module.exports = function (app, io) {
 
 	// API endpoints =============================================================
 	app.post('/api/emails', function (req, res) {
@@ -19,7 +19,7 @@ module.exports = function (app) {
 		// Iterate through array and send a request.
 		for ( var i = 0; i < emails.length; i++ ) {
 			var opts = {
-				uri: "https://stacklead.com/api/",
+				uri: "https://stacklead.com/api/leads",
 			  method: "POST",
 			  timeout: 10000,
 			  followRedirect: true,
@@ -27,11 +27,15 @@ module.exports = function (app) {
 			  qs: {
 			  	api_key: '945a974a20',
 					delivery_method: 'webhook',
-					email: emails[i]
+					email: emails[i],
+					callback: 'http://6bd81658.ngrok.com/api/leads'
 			  }
 			};
 
 			request(opts, function (err, res, body) {
+				if (err)
+					res.send(err, 400);
+
 				console.log(body);
 			});
 		}
@@ -41,9 +45,10 @@ module.exports = function (app) {
 
 	app.post('/api/leads', function (req, res) {
 		// Receiving webhook from Stacklead.
-		console.log(req.body);
+		console.log(req.body.data);
 
-		res.send(req.body, 200);
+		io.of('/').emit('leads', req.body.data);
+		res.send(req.body.data, 200);
 	});
 
 	// Application route =========================================================
