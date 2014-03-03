@@ -17,7 +17,7 @@ var counter = Math.floor(Math.random() * 1000)
 module.exports = function (app, io) {
 
 	// API endpoints =============================================================
-	app.post('/api/leads', function (req, res) {
+	app.post('/api/emails', function (req, res) {
 		// Take the array of emails, feed it to Stacklead API.	
 		var emails = req.body; // [ 'andyjiang@gmail.com', 'andy@twilio.com' ]
 
