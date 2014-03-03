@@ -4,14 +4,14 @@ window.onload = function() {
 	var fileInput = document.getElementById('fileInput');
 	var csvFile = {};
 
-	fileInput.addEventListener('click', function(e) {
+	fileInput.addEventListener('change', function(e) {
 		// Use DOM to get AngularJS root scope.
 		var scope = angular.element(this).scope();
 
-		// Reset firebase and local data store.
+		// Reset local data store.
 		scope.$apply(function() {
-			scope.recipients.removeAll();
-		});		
+			scope.leads.removeAll();
+		});
 
 		var file = fileInput.files[0];
 		var textType = /text.*/;
@@ -32,7 +32,7 @@ window.onload = function() {
 
 				scope.$apply(function() {
 					for(var i = 0; i < csvFile.length; i++ ) {
-						scope.leads.addEmail(csvFile[i]);
+						scope.leads.addEmail(csvFile[i][cleanedFirstLine]);
 					};
 				});
 			};

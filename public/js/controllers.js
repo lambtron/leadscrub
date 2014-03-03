@@ -10,13 +10,19 @@ leadscrub.controller('mainController',
 		list: [], // Array of stacklead objects
 		addEmail: function addLead (email) {
 			// Add email to list.
-			var lead = {};
+			var lead = {
+				person: {
+					email: ''
+				}
+			};
 			lead.person.email = email;
+
 			this.list.push(lead);
 			this.emails.push(email);
 		},
 		scrubEmails: function scrubEmails () {
 			// POST this.emails array to server.
+			console.log(this.emails);
 			$http.post('/api/emails', this.emails)
 			.success( function (data) {
 				// Success!
@@ -27,6 +33,10 @@ leadscrub.controller('mainController',
 				// Error.
 				console.log('Error: ' + data);
 			});
+		},
+		removeAll: function removeAll () {
+			this.emails.length = 0;
+			this.list.length = 0;
 		}
 	};
 }]);
