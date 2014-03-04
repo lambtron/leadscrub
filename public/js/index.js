@@ -1,8 +1,9 @@
 'use strict';
 
-$(window).on('load', ( function () {
-	console.log('hi');
-	
+// $(window).on('load', ( function () {
+// 	console.log('hi');
+(function() {
+
 	var fileInput = document.getElementById('fileInput');
 	var csvFile = {};
 
@@ -45,4 +46,6 @@ $(window).on('load', ( function () {
 			// Error handling here.
 		}
 	});
-}));
+	
+}());
+// }));
