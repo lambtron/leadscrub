@@ -9,11 +9,11 @@ leadscrub.controller('mainController',
 		emails: [], // Array of email addresses
 		list: [], // Array of stacklead objects
 		namespace: $routeParams.namespace,
+		waiting: false,
 		addEmail: function addEmail (email) {
 			this.emails.push(email);
 		},
 		addLead: function addLead (lead) {
-			console.log(lead);
 			this.list.push(lead);
 		},
 		scrubEmails: function scrubEmails () {
@@ -25,6 +25,7 @@ leadscrub.controller('mainController',
 			$http.post('/api/emails', postLoad)
 			.success( function (data) {
 				// Success!
+				leads.waiting = true;
 				console.log('Success: ' + data);
 			})
 			.error( function (data) {

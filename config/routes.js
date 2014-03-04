@@ -66,8 +66,8 @@ module.exports = function (app, io) {
     // Redirect to namespace.
 		var namespace = hashIds.encrypt(counter);
 		counter = counter + 1;
-    // res.redirect('http://localhost:3000/' + namespace);
-    res.redirect('http://leadscrub.herokuapp.com/' + namespace);
+    res.redirect('http://localhost:3000/' + namespace);
+    // res.redirect('http://leadscrub.herokuapp.com/' + namespace);
   });
 
 	app.get('/:namespace', function (req, res) {
