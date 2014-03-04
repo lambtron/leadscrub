@@ -6,16 +6,16 @@
 leadscrub.factory('socket', function ($rootScope) {
   var socket = io.connect();
   return {
-    of: function (nameSpace, eventName, timeout, callback) {
+    of: function (nameSpace, eventName, callback) {
       socket.of(nameSpace).on(eventName, function() {
         var args = arguments;
         $rootScope.$apply(function () {
           callback.apply(socket, args);
         });
-        setTimeout( function () {
-          console.log('timeout');
-          socket.disconnect();
-        }, timeout);
+        // setTimeout( function () {
+        //   console.log('timeout');
+        //   socket.disconnect();
+        // }, timeout);
       });
     },
     on: function (eventName, callback) {

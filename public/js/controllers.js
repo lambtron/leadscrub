@@ -46,7 +46,7 @@ leadscrub.controller('mainController',
 	};
 
 	// Receiving data from server via Socket.io.
-	socket.of('/', 'leads', 300000, function (data) {
+	socket.of('/', 'leads', function (data) {
 		data.expand = false;	// Default is to be not expanded.
 		$scope.leads.addLead(data);
 	});
