@@ -27,12 +27,14 @@ leadscrub.controller('mainController',
 		},
 		scrubEmails: function scrubEmails () {
 			// POST this.emails array to server.
-			console.log(this.emails);
-			$http.post('/api/emails', this.emails)
+			var postLoad = {};
+			postLoad.namespace = this.namespace;
+			postLoad.emails = this.emails;
+
+			$http.post('/api/emails', postLoad)
 			.success( function (data) {
 				// Success!
-				console.log('Success: ' + data.namespace);
-				leads.namespace = data.namespace;
+				console.log('Success: ' + data);
 			})
 			.error( function (data) {
 				// Error.
@@ -45,9 +47,22 @@ leadscrub.controller('mainController',
 		}
 	};
 
+	// On load, send GET to server to retrieve socket namespace.
+	$http.get('/api/namespace')
+	.success( function (data) {
+		console.log('Success: ');
+		console.log(data);
+		leads.namespace = data.namespace;
+	})
+	.error( function (data) {
+		console.log('Error: ' + data);
+	});
+
 	// Receiving data from server via Socket.io.
-	socket.of('/', 'leads', function (data) {
+	socket.of('/' + leads.namespace, 'leads', function (data) {
 		data.expand = false;	// Default is to be not expanded.
 		$scope.leads.addLead(data);
+		console.log('Receiving data from socket.io: ');
+		console.log(data);
 	});
 }]);

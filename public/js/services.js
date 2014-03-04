@@ -12,10 +12,6 @@ leadscrub.factory('socket', function ($rootScope) {
         $rootScope.$apply(function () {
           callback.apply(socket, args);
         });
-        // setTimeout( function () {
-        //   console.log('timeout');
-        //   socket.disconnect();
-        // }, timeout);
       });
     },
     on: function (eventName, callback) {

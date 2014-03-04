@@ -19,22 +19,25 @@ module.exports = function (app, io) {
 	// API endpoints =============================================================
 	app.post('/api/emails', function (req, res) {
 		// Take the array of emails, feed it to Stacklead API.	
-		var emails = req.body; // [ 'andyjiang@gmail.com', 'andy@twilio.com' ]
+		// { namespace: 'asdadf', emails: [ 'andyjiang@gmail.com', 'andy@twilio.com' ] }
+		var emails = req.body.emails;
+		var namespace = req.body.namespace;
 
 		// Iterate through array and send a request.
 		for ( var i = 0; i < emails.length; i++ ) {
 			var opts = {
 				uri: "https://stacklead.com/api/leads",
-			  method: "POST",
-			  timeout: 10000,
-			  followRedirect: true,
-			  maxRedirects: 10,
-			  qs: {
-			  	api_key: '945a974a20',
+				method: "POST",
+				timeout: 10000,
+				followRedirect: true,
+				maxRedirects: 10,
+				qs: {
+					api_key: '945a974a20',
 					delivery_method: 'webhook',
 					email: emails[i],
-					callback: 'http://leadscrub.herokuapp.com/api/leads'
-			  }
+					callback: 'http://leadscrub.herokuapp.com/api/leads/' + namespace
+					// callback: 'http://1141356e.ngrok.com/api/leads/' + namespace
+				}
 			};
 
 			request(opts, function (err, r, body) {
@@ -45,20 +48,24 @@ module.exports = function (app, io) {
 				res.send(body, 200);
 			});
 		}
-
-		// Generate unique hashId for socket namespacing.
-		// var hash = hashIds.encrypt(counter);
-		// counter = counter + 1;
-
-		// res.send({namespace: hash}, 200);
 	});
 
-	app.post('/api/leads', function (req, res) {
+	app.post('/api/leads/:namespace', function (req, res) {
 		// Receiving webhook from Stacklead.
+		console.log(req.params.namespace);
 		console.log(req.body.data);
 
-		io.of('/').emit('leads', req.body.data);
+		io.of('/' + req.params.namespace).emit('leads', req.body.data);
 		res.send(req.body.data, 200);
+	});
+
+	// Respond with a uniquely generated hash that will serve as socket namespace.
+	app.get('/api/namespace', function (req, res) {
+		// Respond with namespace.
+		var hash = hashIds.encrypt(counter);
+		counter = counter + 1;
+
+		res.send({namespace: hash}, 200);
 	});
 
 	// Application route =========================================================
