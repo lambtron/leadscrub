@@ -5,6 +5,8 @@ document.onload = function() {
 	var csvFile = {};
 
 	fileInput.addEventListener('change', function(e) {
+		console.log('hi');
+
 		// Use DOM to get AngularJS root scope.
 		var scope = angular.element(this).scope();
 
