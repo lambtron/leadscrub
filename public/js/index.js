@@ -1,6 +1,8 @@
 'use strict';
 
 $(window).on('load', ( function () {
+	console.log('hi');
+	
 	var fileInput = document.getElementById('fileInput');
 	var csvFile = {};
 
