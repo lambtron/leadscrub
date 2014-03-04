@@ -1,24 +1,15 @@
 'use strict';
 
 leadscrub.controller('mainController',
-  ['$scope', '$http', 'socket',
-	function ($scope, $http, socket)
+  ['$scope', '$http', 'socket', '$routeParams', '$location',
+	function ($scope, $http, socket, $routeParams, $location)
 {
 	// Initialize variables.
 	var leads = $scope.leads = {
 		emails: [], // Array of email addresses
 		list: [], // Array of stacklead objects
-		namespace: '',
+		namespace: $routeParams.namespace,
 		addEmail: function addEmail (email) {
-			// Add email to list.
-			// var lead = {
-			// 	person: {
-			// 		email: ''
-			// 	}
-			// };
-			// lead.person.email = email;
-
-			// this.list.push(lead);
 			this.emails.push(email);
 		},
 		addLead: function addLead (lead) {
@@ -47,19 +38,8 @@ leadscrub.controller('mainController',
 		}
 	};
 
-	// On load, send GET to server to retrieve socket namespace.
-	$http.get('/api/namespace')
-	.success( function (data) {
-		console.log('Success: ');
-		console.log(data);
-		leads.namespace = data.namespace;
-	})
-	.error( function (data) {
-		console.log('Error: ' + data);
-	});
-
 	// Receiving data from server via Socket.io.
-	socket.of('/' + leads.namespace, 'leads', function (data) {
+	socket.of('/' + $routeParams.namespace, 'leads', function (data) {
 		data.expand = false;	// Default is to be not expanded.
 		$scope.leads.addLead(data);
 		console.log('Receiving data from socket.io: ');

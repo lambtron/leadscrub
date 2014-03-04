@@ -36,7 +36,7 @@ module.exports = function (app, io) {
 					delivery_method: 'webhook',
 					email: emails[i],
 					callback: 'http://leadscrub.herokuapp.com/api/leads/' + namespace
-					// callback: 'http://1141356e.ngrok.com/api/leads/' + namespace
+					// callback: 'http://d625b0.ngrok.com/api/leads/' + namespace
 				}
 			};
 
@@ -56,22 +56,24 @@ module.exports = function (app, io) {
 		console.log(req.body.data);
 
 		io.of('/' + req.params.namespace).emit('leads', req.body.data);
-		res.send(req.body.data, 200);
+		// io.sockets.emit('leads', req.body.data);
+		// io.of('/test').emit('leads', req.body.data);
 	});
 
-	// Respond with a uniquely generated hash that will serve as socket namespace.
-	app.get('/api/namespace', function (req, res) {
-		// Respond with namespace.
-		var hash = hashIds.encrypt(counter);
+	// Application routes ========================================================
+	app.get('/', function (req, res) {
+    // res.sendfile('index.html', {'root': './public/views/'});
+    // Redirect to namespace.
+		var namespace = hashIds.encrypt(counter);
 		counter = counter + 1;
+    // res.redirect('http://localhost:3000/' + namespace);
+    res.redirect('http://leadscrub.herokuapp/' + namespace);
+  });
 
-		res.send({namespace: hash}, 200);
+	app.get('/:namespace', function (req, res) {
+		res.sendfile('index.html', {'root': './public/views/'});
 	});
 
-	// Application route =========================================================
-	app.get('/*', function (req, res) {
-    res.sendfile('index.html', {'root': './public/views/'});
-  });
 };
 
 }());
