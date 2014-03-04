@@ -1,6 +1,6 @@
 'use strict';
 
-window.onload = function() {
+$(document).ready( function () {
 	var fileInput = document.getElementById('fileInput');
 	var csvFile = {};
 
@@ -34,13 +34,13 @@ window.onload = function() {
 				scope.$apply(function() {
 					for(var i = 0; i < csvFile.length; i++ ) {
 						scope.leads.addEmail(csvFile[i][cleanedFirstLine]);
-					};
+					}
 				});
 			};
       
       reader.readAsText(file);
 		} else {
 			// Error handling here.
-		};
+		}
 	});
-}
+});
