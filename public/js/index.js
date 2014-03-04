@@ -1,6 +1,6 @@
 'use strict';
 
-$(document).ready( function () {
+$(window).on('load', ( function () {
 	var fileInput = document.getElementById('fileInput');
 	var csvFile = {};
 
@@ -43,4 +43,4 @@ $(document).ready( function () {
 			// Error handling here.
 		}
 	});
-});
+}));
