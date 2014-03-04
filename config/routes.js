@@ -42,7 +42,7 @@ module.exports = function (app, io) {
 					res.send(err, 400);
 
 				console.log(body);
-				res.send(200);
+				res.send(body, 200);
 			});
 		}
 
