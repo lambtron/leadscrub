@@ -1,6 +1,6 @@
 'use strict';
 
-window.onload = function() {
+document.onload = function() {
 	var fileInput = document.getElementById('fileInput');
 	var csvFile = {};
 
