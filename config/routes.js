@@ -20,8 +20,14 @@ module.exports = function (app, io) {
 	app.post('/api/emails', function (req, res) {
 		// Take the array of emails, feed it to Stacklead API.	
 		// { namespace: 'asdadf', emails: [ 'andyjiang@gmail.com', 'andy@twilio.com' ] }
-		var emails = req.body.emails;
-		var namespace = req.body.namespace;
+		var emails = req.body;
+
+		// Generate namespace.
+		var namespace = hashIds.encrypt(counter);
+		counter = counter + 1;
+
+		// Register socket.io connection for new namespace.
+		io.of('/' + namespace);
 
 		// Iterate through array and send a request.
 		for ( var i = 0; i < emails.length; i++ ) {
@@ -36,7 +42,7 @@ module.exports = function (app, io) {
 					delivery_method: 'webhook',
 					email: emails[i],
 					callback: 'http://leadscrub.herokuapp.com/api/leads/' + namespace
-					// callback: 'http://d625b0.ngrok.com/api/leads/' + namespace
+					// callback: 'http://3bc71287.ngrok.com/api/leads/' + namespace
 				}
 			};
 
@@ -45,7 +51,11 @@ module.exports = function (app, io) {
 					res.send(err, 400);
 
 				console.log(body);
-				res.send(body, 200);
+
+				var load = {};
+				load.body = body;
+				load.namespace = namespace;
+				res.send(load, 200);
 			});
 		}
 	});
@@ -56,24 +66,12 @@ module.exports = function (app, io) {
 		console.log(req.body.data);
 
 		io.of('/' + req.params.namespace).emit('leads', req.body.data);
-		// io.sockets.emit('leads', req.body.data);
-		// io.of('/test').emit('leads', req.body.data);
 	});
 
 	// Application routes ========================================================
 	app.get('/', function (req, res) {
-    // res.sendfile('index.html', {'root': './public/views/'});
-    // Redirect to namespace.
-		var namespace = hashIds.encrypt(counter);
-		counter = counter + 1;
-    // res.redirect('http://localhost:3000/' + namespace);
-    res.redirect('http://leadscrub.herokuapp.com/' + namespace);
+    res.sendfile('index.html', {'root': './public/views/'});
   });
-
-	app.get('/:namespace', function (req, res) {
-		res.sendfile('index.html', {'root': './public/views/'});
-	});
-
 };
 
 }());

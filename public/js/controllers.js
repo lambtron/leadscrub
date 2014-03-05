@@ -1,14 +1,13 @@
 'use strict';
 
 leadscrub.controller('mainController',
-  ['$scope', '$http', 'socket', '$routeParams', '$location',
-	function ($scope, $http, socket, $routeParams, $location)
+  ['$scope', '$http', 'socket',
+	function ($scope, $http, socket)
 {
 	// Initialize variables.
 	var leads = $scope.leads = {
 		emails: [], // Array of email addresses
 		list: [], // Array of stacklead objects
-		namespace: $routeParams.namespace,
 		waiting: false,
 		addEmail: function addEmail (email) {
 			this.emails.push(email);
@@ -18,15 +17,20 @@ leadscrub.controller('mainController',
 		},
 		scrubEmails: function scrubEmails () {
 			// POST this.emails array to server.
-			var postLoad = {};
-			postLoad.namespace = this.namespace;
-			postLoad.emails = this.emails;
-
-			$http.post('/api/emails', postLoad)
+			$http.post('/api/emails', this.emails)
 			.success( function (data) {
 				// Success!
 				leads.waiting = true;
-				console.log('Success: ' + data);
+				console.log('Success: ');
+				console.log(data);
+				// Call socket after scrub emails is sent.
+				// Receiving data from server via Socket.io.
+				socket.of('/' + data.namespace, 'leads', function (data) {
+					data.expand = false;	// Default is to be not expanded.
+					$scope.leads.addLead(data);
+					console.log('Receiving data from socket.io: ');
+					console.log(data);
+				});
 			})
 			.error( function (data) {
 				// Error.
@@ -38,12 +42,4 @@ leadscrub.controller('mainController',
 			this.list.length = 0;
 		}
 	};
-
-	// Receiving data from server via Socket.io.
-	socket.of('/' + $routeParams.namespace, 'leads', function (data) {
-		data.expand = false;	// Default is to be not expanded.
-		$scope.leads.addLead(data);
-		console.log('Receiving data from socket.io: ');
-		console.log(data);
-	});
 }]);
